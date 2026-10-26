@@ -55,6 +55,13 @@
 #       If the player has permission and in a region
 #       - "REGION[spawn]PERMISSION[deathmessages.premium]Idiot premium %player% died in spawn lol"
 #
+# Weapon specific messages
+#
+# Some weapons have their own vanilla death message. If the killer holds one of these weapons, the plugin will
+# use the weapon specific node below, and fallback to "Weapon" if that node is not defined for the killer:
+#   Weapon-Mace  - killed with a mace (1.21+)
+#   Weapon-Spear - killed with a spear (1.21.11+)
+#
 # To completely remove the message for a certain death. Configure as followed:
 # Natrual-Death:
 #   Bed: [""]
@@ -86,6 +93,10 @@ Basic-Mode:
       - "%player% was obliterated by a sonically-charged shriek"
     Weapon:
       - "%player% was slain by a %killer% using %weapon%"
+    Weapon-Mace:
+      - "%player% was smashed by a %killer% with %weapon%"
+    Weapon-Spear:
+      - "%player% was speared by a %killer% using %weapon%"
     Melee:
       - "%player% was slain by a %killer%"
     Contact:
@@ -107,6 +118,10 @@ Basic-Mode:
       - "%player% was obliterated by a sonically-charged shriek"
     Weapon:
       - "%player% was slain by a group of %killer%'s somehow using %weapon%"
+    Weapon-Mace:
+      - "%player% was smashed by a group of %killer%'s! One used %weapon%"
+    Weapon-Spear:
+      - "%player% was speared by a group of %killer%'s! One used %weapon%"
     Melee:
       - "%player% was slain by a group of %killer%'s"
     Contact:
@@ -256,6 +271,8 @@ Mobs:
         - "%player% was shot by a %killer% somehow using %weapon%"
       Weapon:
         - "%player% was slain by a %killer% somehow using %weapon%"
+      Weapon-Spear:
+        - "%player% was speared by a %killer% using %weapon%"
       Melee:
         - "%player% was slain by a %killer%"
     Gang:
@@ -263,6 +280,8 @@ Mobs:
         - "%player% was ganged up on by some %killer%! One shot them with %weapon%"
       Weapon:
         - "%player% was ganged up on by some %killer%'s! One wacked them with %weapon%"
+      Weapon-Spear:
+        - "%player% was ganged up on by some %killer%'s! One speared them with %weapon%"
       Melee:
         - "%player% was slain by a bunch of %killer%'s"
   zombievillager:
@@ -271,6 +290,8 @@ Mobs:
         - "%player% was shot by a %killer% somehow using %weapon%"
       Weapon:
         - "%player% was slain by a %killer% somehow using %weapon%"
+      Weapon-Spear:
+        - "%player% was speared by a %killer% using %weapon%"
       Melee:
         - "%player% was slain by a %killer%"
     Gang:
@@ -278,6 +299,8 @@ Mobs:
         - "%player% was ganged up on by some %killer%! One shot them with %weapon%"
       Weapon:
         - "%player% was ganged up on by some %killer%'s! One wacked them with %weapon%"
+      Weapon-Spear:
+        - "%player% was ganged up on by some %killer%'s! One speared them with %weapon%"
       Melee:
         - "%player% was slain by a bunch of %killer%'s"
   skeletonhorse:
@@ -489,6 +512,8 @@ Mobs:
         - "%player% was shot by a %killer% somehow using %weapon%"
       Weapon:
         - "%player% was slain by a %killer% somehow using %weapon%"
+      Weapon-Spear:
+        - "%player% was speared by a %killer% using %weapon%"
       Melee:
         - "%player% was slain by a %killer%"
     Gang:
@@ -496,6 +521,8 @@ Mobs:
         - "%player% was ganged up on by some %killer%! One shot them with %weapon%"
       Weapon:
         - "%player% was ganged up on by some %killer%'s! One wacked them with %weapon%"
+      Weapon-Spear:
+        - "%player% was ganged up on by some %killer%'s! One speared them with %weapon%"
       Melee:
         - "%player% was slain by a bunch of %killer%'s"
   slime:
@@ -538,6 +565,8 @@ Mobs:
         - "%player% was shot by a %killer% somehow using %weapon%"
       Weapon:
         - "%player% was slain by a %killer% somehow using %weapon%"
+      Weapon-Spear:
+        - "%player% was speared by a %killer% using %weapon%"
       Melee:
         - "%player% was slain by a %killer%"
     Gang:
@@ -545,6 +574,8 @@ Mobs:
         - "%player% was ganged up on by some %killer%! One shot them with %weapon%"
       Weapon:
         - "%player% was ganged up on by some %killer%'s! One wacked them with %weapon%"
+      Weapon-Spear:
+        - "%player% was ganged up on by some %killer%'s! One speared them with %weapon%"
       Melee:
         - "%player% was slain by a bunch of %killer%'s"
   enderman:
@@ -1260,6 +1291,8 @@ Mobs:
         - "%player% was shot by a %killer% somehow using %weapon%"
       Weapon:
         - "%player% was slain by a %killer% somehow using %weapon%"
+      Weapon-Spear:
+        - "%player% was speared by a %killer% using %weapon%"
       Melee:
         - "%player% was slain by a %killer%"
     Gang:
@@ -1267,6 +1300,8 @@ Mobs:
         - "%player% was ganged up on by some %killer%! One shot them with %weapon%"
       Weapon:
         - "%player% was ganged up on by some %killer%'s! One wacked them with %weapon%"
+      Weapon-Spear:
+        - "%player% was ganged up on by some %killer%'s! One speared them with %weapon%"
       Melee:
         - "%player% was slain by a bunch of %killer%'s"
   strider:
@@ -1395,6 +1430,24 @@ Mobs:
         - "%player% was slain by a bunch of %killer%'s"
       Projectile-Arrow:
         - "%player% was ganged up on by some %killer%! One shot them with %weapon%"
+  # 26.2
+  sulfurcube:
+    Solo:
+      # Hot sulfur cube (absorbed a magma block)
+      Contact:
+        - "%killer% showed %player% that not just the floor is lava"
+      # Explosive sulfur cube (absorbed a TNT)
+      Explosion:
+        - "%player% was blown up by a %killer%"
+      Melee:
+        - "%player% was squished by a %killer%"
+    Gang:
+      Contact:
+        - "A bunch of %killer%s showed %player% that not just the floor is lava"
+      Explosion:
+        - "%player% was blown up by a bunch of %killer%s"
+      Melee:
+        - "%player% was squished by a bunch of %killer%s"
   player:
     Solo:
       Bed:
@@ -1415,6 +1468,10 @@ Mobs:
         - "%player% was impaled by %killer%"
       Weapon:
         - "%player% was slain by %killer% somehow using %weapon%"
+      Weapon-Mace:
+        - "%player% was smashed by %killer% with %weapon%"
+      Weapon-Spear:
+        - "%player% was speared by %killer% using %weapon%"
       Melee:
         - "%player% was slain by %killer%"
       Suffocation:
@@ -1445,6 +1502,10 @@ Mobs:
         - "%player% was ganged up on by some %killer%! One shot them with %weapon%"
       Weapon:
         - "%player% was ganged up on by some %killer%'s! One wacked them with %weapon%"
+      Weapon-Mace:
+        - "%player% was ganged up on by some %killer%'s! One smashed them with %weapon%"
+      Weapon-Spear:
+        - "%player% was ganged up on by some %killer%'s! One speared them with %weapon%"
       Melee:
         - "%player% was slain by a bunch of %killer%'s"
 

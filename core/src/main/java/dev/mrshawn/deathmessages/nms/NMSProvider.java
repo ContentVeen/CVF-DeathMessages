@@ -15,7 +15,9 @@ public class NMSProvider {
     public static void initNMS() {
         final String instClassPath;
         if (PlatformUtil.IS_PAPER) {
-            if (PlatformUtil.isNewerAndEqual(21, 4)) {
+            if (PlatformUtil.isNewerAndEqual(21, 11)) {
+                instClassPath = "paper.v1_21_11";
+            } else if (PlatformUtil.isNewerAndEqual(21, 4)) {
                 instClassPath = "paper.v1_21_4";
             } else if (PlatformUtil.isNewerAndEqual(21, 3)) {
                 instClassPath = "paper.v1_21_3";

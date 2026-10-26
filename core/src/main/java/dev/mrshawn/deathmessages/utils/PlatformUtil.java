@@ -4,7 +4,8 @@ import dev.mrshawn.deathmessages.DeathMessages;
 import dev.mrshawn.deathmessages.nms.NMSProvider;
 import org.bukkit.Bukkit;
 
-import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PlatformUtil {
 
@@ -19,6 +20,7 @@ public class PlatformUtil {
         Sakamoto Util
         Cute Sakamoto helps you to process versions =w=
      */
+    private static final Pattern VERSION_PATTERN = Pattern.compile("^(\\d+)\\.(\\d+)(?:\\.(\\d+))?(?!\\d)");
     private final static String[] serverVersion = getServerVersion();
     private final static int majorVersion = Integer.parseInt(serverVersion[0]);
     private final static int minorVersion = Integer.parseInt(serverVersion[1]);
@@ -90,42 +92,25 @@ public class PlatformUtil {
 
     // New server version schema
     // Paper:
-    // 26.1.local-SNAPSHOT -> {"26","1","0"}
-    // 26.1.build.9-alpha -> {"26","1","0"}
+    // 26.1.local-SNAPSHOT -> {"26","1"}
+    // 26.1.build.9-alpha -> {"26","1"}
+    // 26.2.1.build.5-stable -> {"26","2","1"}
     // Spigot:
-    // 26.1-R0.1-SNAPSHOT -> {"26","1","0"}
+    // 26.1-R0.1-SNAPSHOT -> {"26","1"}
     // Old server version schema
     // Paper / Spigot:
     // 1.20.2-R0.1-SNAPSHOT -> {"1","20","2"}
     private static String[] getServerVersion() {
-        String version = Bukkit.getServer().getBukkitVersion();
+        final String version = Bukkit.getServer().getBukkitVersion();
+        // Only take the leading "major.minor[.patch]" part, ignore everything after it (e.g. ".build.x", "-R0.1-SNAPSHOT")
+        final Matcher matcher = VERSION_PATTERN.matcher(version);
 
-        final int dashIndex = version.indexOf('-');
-
-        // Strip after "-"
-        if (dashIndex != -1) {
-            version = version.substring(0, dashIndex);
-        }
-
-        // Process Paper's version schema
-        if (PlatformUtil.IS_PAPER) {
-            final int buildIndex = version.indexOf(".build");
-            if (buildIndex != -1) {
-                version = version.substring(0, buildIndex);
-            } else {
-                final int localIndex = version.indexOf(".local");
-                if (localIndex != -1) {
-                    version = version.substring(0, localIndex);
-                }
-            }
-        }
-
-        String[] ret = version.split("\\.");
-
-        if (ret.length < 2 || ret.length > 3) {
+        if (!matcher.find()) {
             throw new IllegalArgumentException("Invalid version format: [" + version + "]!");
         }
 
-        return ret;
+        return matcher.group(3) != null
+                ? new String[]{matcher.group(1), matcher.group(2), matcher.group(3)}
+                : new String[]{matcher.group(1), matcher.group(2)};
     }
 }

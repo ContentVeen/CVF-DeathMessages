@@ -42,6 +42,7 @@ tasks {
         from(project(":nms:paper:v1_16_5").sourceSets.main.get().output)
         from(project(":nms:paper:v1_21_3").sourceSets.main.get().output)
         from(project(":nms:paper:v1_21_4").sourceSets.main.get().output)
+        from(project(":nms:paper:v1_21_11").sourceSets.main.get().output)
 
         // NMS for Spigot
         from(project(":nms:spigot:v1_12_2").sourceSets.main.get().output)

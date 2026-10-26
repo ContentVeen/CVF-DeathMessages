@@ -21,7 +21,7 @@ discordsrv = "com.discordsrv:discordsrv:1.30.4"
 mythicdist = "io.lumine:Mythic-Dist:5.11.2"
 eco = "com.willfp:eco:7.2.0"
 ecoenchants = "com.willfp:EcoEnchants:13.1.1"
-combatlogx = "com.github.sirblobman.combatlogx:api:11.6-SNAPSHOT"
+combatlogx = "com.github.sirblobman.combatlogx:api:11.7-SNAPSHOT"
 
 # Dreeam - Don't bump worldedit/worldguard dependencies!!!!
 # Unless API changed then we need to create new Gradle module

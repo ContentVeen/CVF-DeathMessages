@@ -31,6 +31,10 @@
 # "%player% was killed by [%killer%::&cLocations: X:%x%, Y:%y%, Z:%z%]"
 # "%player% was killed by [%killer%::&cLocations: X:%x%, Y:%y%, Z:%z%::SUGGEST_COMMAND::msg %player% lol noob]"
 #
+# Weapon specific messages:
+# If the killer holds a mace or a spear, the "Weapon-Mace" or "Weapon-Spear" node of the entity will be used,
+# and fallback to "Weapon" if that node is not defined.
+#
 # !!!!!!!!!!!!!!!!!!!!LOOK HERE :EYES: :EYES:!!!!!!!!!!!!!!!!!!!!!!!!!
 # If you do not want to use this feature of the plugin. Setup this config like so:
 #

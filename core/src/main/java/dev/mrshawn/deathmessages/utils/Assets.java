@@ -280,9 +280,7 @@ public class Assets {
                 String material = PlatformUtil.isNewerAndEqual(12, 0)
                         ? fb.getBlockData().getMaterial().toString().toLowerCase()
                         : fb.getMaterial().toString().toLowerCase();
-                String configValue = Messages.getInstance().getConfig().getString("Blocks." + material);
-
-                base.append(Util.convertFromLegacy(msg.replaceAll("%block%", configValue)));
+                base.append(Util.convertFromLegacy(msg.replaceAll("%block%", getBlockName(material))));
             } catch (NullPointerException e) {
                 DeathMessages.LOGGER.error("Could not parse %block%. Please check your config for a wrong value." +
                         " Your materials could be spelt wrong or it does not exists in the config. Open a issue if you need help, " + "https://github.com/Winds-Studio/DeathMessages/issues");
@@ -292,9 +290,7 @@ public class Assets {
         } else if (msg.contains("%climbable%") && playerCtx.getLastDamageCause().equals(EntityDamageEvent.DamageCause.FALL)) {
             try {
                 String material = playerCtx.getLastClimbing().toString().toLowerCase();
-                String configValue = Messages.getInstance().getConfig().getString("Blocks." + material);
-
-                base.append(Util.convertFromLegacy(msg.replaceAll("%climbable%", configValue)));
+                base.append(Util.convertFromLegacy(msg.replaceAll("%climbable%", getBlockName(material))));
             } catch (NullPointerException e) {
                 playerCtx.setLastClimbing(null);
                 return getNaturalDeath(playerCtx, getSimpleCause(EntityDamageEvent.DamageCause.FALL));
@@ -357,8 +353,9 @@ public class Assets {
         final String mode = basicMode ? DeathModes.BASIC_MODE.getValue() : DeathModes.MOBS.getValue()
                                                                            + "." + entityName;
         final String affiliation = gang ? DeathAffiliation.GANG.getValue() : DeathAffiliation.SOLO.getValue();
+        final String weaponNode = getWeaponNode(getPlayerDeathMessages(), mode + "." + affiliation, mob.getEquipment().getItemInMainHand());
         //Bukkit.broadcastMessage(DeathMessages.getInstance().mythicmobsEnabled + " - " + DeathMessages.getInstance().mythicMobs.getAPIHelper().isMythicMob(mob.getUniqueId()));
-        List<String> msgs = sortList(getPlayerDeathMessages().getStringList(mode + "." + affiliation + ".Weapon"), playerCtx.getPlayer(), mob);
+        List<String> msgs = sortList(getPlayerDeathMessages().getStringList(mode + "." + affiliation + "." + weaponNode), playerCtx.getPlayer(), mob);
 
         if (DeathMessages.getHooks().mythicmobsEnabled && DeathMessages.getHooks().mythicMobs.get().isMythicMob(mob.getUniqueId())) {
             String mmMobType = DeathMessages.getHooks().mythicMobs.get().getMythicMobInstance(mob).getMobType();
@@ -369,9 +366,9 @@ public class Assets {
         }
 
         if (Settings.getInstance().getConfig().getBoolean(Config.DEBUG.getPath()))
-            DeathMessages.LOGGER.warn("node: [{}.{}.Weapon]", mode, affiliation);
+            DeathMessages.LOGGER.warn("node: [{}.{}.{}]", mode, affiliation, weaponNode);
         if (msgs.isEmpty()) {
-            DeathMessages.LOGGER.warn("Can't find message node: [{}.{}.Weapon] in PlayerDeathMessages.yml", mode, affiliation);
+            DeathMessages.LOGGER.warn("Can't find message node: [{}.{}.{}] in PlayerDeathMessages.yml", mode, affiliation, weaponNode);
             DeathMessages.LOGGER.warn("This should not happen, please check your config or report this issue on Github");
             msgs = sortList(getPlayerDeathMessages().getStringList(DeathModes.BASIC_MODE.getValue() + "." + affiliation + ".Weapon"), playerCtx.getPlayer(), mob);
             DeathMessages.LOGGER.warn("Fallback this death to Basic-Mode of PlayerDeathMessages");
@@ -427,7 +424,8 @@ public class Assets {
     public static TextComponent getEntityDeathWeapon(Player p, Entity e, MobType mobType) {
         String entityName = EntityUtil.getConfigNodeByEntity(e);
         boolean hasOwner = EntityUtil.hasOwner(e);
-        List<String> msgs = sortList(getEntityDeathMessages().getStringList("Entities." + entityName + ".Weapon"), p, e);
+        final String weaponNode = getWeaponNode(getEntityDeathMessages(), "Entities." + entityName, p.getEquipment().getItemInMainHand());
+        List<String> msgs = sortList(getEntityDeathMessages().getStringList("Entities." + entityName + "." + weaponNode), p, e);
 
         if (mobType.equals(MobType.MYTHIC_MOB)) {
             String mmMobType = null;
@@ -443,7 +441,7 @@ public class Assets {
         }
 
         if (Settings.getInstance().getConfig().getBoolean(Config.DEBUG.getPath()))
-            DeathMessages.LOGGER.warn("node: [Entities.{}.Weapon]", entityName);
+            DeathMessages.LOGGER.warn("node: [Entities.{}.{}]", entityName, weaponNode);
         if (msgs.isEmpty()) {
             // This death message will not be broadcast, since user have not set death message for this entity
             return Component.empty();
@@ -1201,6 +1199,25 @@ public class Assets {
             case SONIC_BOOM -> "Sonic-Boom";
             default -> "Unknown";
         };
+    }
+
+    // Use the weapon specific node (e.g. Weapon-Mace, Weapon-Spear) if it's configured, otherwise fallback to Weapon
+    private static String getWeaponNode(FileConfiguration config, String path, ItemStack weapon) {
+        final String weaponTypeNode = MaterialUtil.getWeaponTypeNode(weapon);
+
+        if (weaponTypeNode != null && !config.getStringList(path + "." + weaponTypeNode).isEmpty()) {
+            return weaponTypeNode;
+        }
+
+        return "Weapon";
+    }
+
+    // Get block name from Blocks section in Messages.yml,
+    // fallback to a readable material name for blocks not in config (e.g. new blocks from newer versions)
+    private static String getBlockName(String material) {
+        final String configValue = Messages.getInstance().getConfig().getString("Blocks." + material);
+
+        return configValue != null ? configValue : Util.capitalize(material);
     }
 
     public static FileConfiguration getPlayerDeathMessages() {

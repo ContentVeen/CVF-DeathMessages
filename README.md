@@ -17,7 +17,7 @@ Compatibility
 |                       |          Support           |
 |-----------------------|:--------------------------:|
 | Java Version          |          `>= 21`           |  
-| Minecraft Version     |      1.12.2 ~ 26.1.2       |
+| Minecraft Version     |       1.12.2 ~ 26.3        |
 | Compatibility         | Spigot / Paper / Forks / * |
 | Folia Support         |            Yes             |
 | Multi Plugins Support |            Yes             |

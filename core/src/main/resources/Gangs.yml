@@ -234,3 +234,16 @@ Gang:
     creaking:
       Radius: 5
       Amount: 4
+    nautilus:
+      Radius: 5
+      Amount: 4
+    zombienautilus:
+      Radius: 5
+      Amount: 4
+    parched:
+      Radius: 5
+      Amount: 4
+    # 26.2
+    sulfurcube:
+      Radius: 5
+      Amount: 4

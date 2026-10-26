@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -105,6 +106,23 @@ public class MaterialUtil {
                 || materialName.contains("TRIDENT")
                 || materialName.contains("MACE")
                 || materialName.contains("SPEAR");
+    }
+
+    // Weapons that have their own death message in vanilla, they can use a more specific message node than "Weapon"
+    // Mace (1.21): death.attack.mace_smash
+    // Spear (1.21.11): death.attack.spear
+    public static @Nullable String getWeaponTypeNode(@Nullable ItemStack itemStack) {
+        if (itemStack == null) return null;
+
+        final String materialName = itemStack.getType().name();
+        if (materialName.equals("MACE")) {
+            return "Weapon-Mace";
+        }
+        if (materialName.endsWith("_SPEAR")) {
+            return "Weapon-Spear";
+        }
+
+        return null;
     }
 
     public static boolean hasWeapon(LivingEntity mob, EntityDamageEvent.DamageCause damageCause) {

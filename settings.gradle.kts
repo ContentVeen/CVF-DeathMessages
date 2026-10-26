@@ -21,6 +21,7 @@ include(
     "nms:paper:v1_16_5",
     "nms:paper:v1_21_3",
     "nms:paper:v1_21_4",
+    "nms:paper:v1_21_11",
 
     ":hooks:worldguard",
     ":hooks:worldguard6",

@@ -106,7 +106,15 @@ public class EntityUtil {
             "goat",
             "warden",
             "bogged",
-            "breeze"
+            "breeze",
+            // 1.21.4
+            "creaking",
+            // 1.21.11
+            "nautilus",
+            "zombienautilus",
+            "parched",
+            // 26.2
+            "sulfurcube"
     );
 
     // K: EndCrystal UUID
